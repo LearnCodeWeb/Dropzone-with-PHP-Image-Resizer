@@ -1,1 +1,1 @@
-# Files-uploader-with-Resize-change-quality-of-images
+# Files uploader with Resize & change quality of images
