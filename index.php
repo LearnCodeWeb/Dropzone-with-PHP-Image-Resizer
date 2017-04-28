@@ -10,11 +10,20 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="dropzone/dropzone.css" type="text/css">
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 <body>
 	
 	<div class="container">
-    	<h4>If you like :) then, Give star to this project.</h4>
+    	<hr>
+	<h4>If you like :) then, Give star to this project.</h4>
+	<div class="well">
+		<!-- Place this tag where you want the button to render. -->
+		<a class="github-button" href="https://github.com/AzCreativeWorld" data-style="mega" data-show-count="true" aria-label="Follow @AzCreativeWorld on GitHub">Follow @AzCreativeWorld</a>
+		<!-- Place this tag where you want the button to render. -->
+		<a class="github-button" href="https://github.com/AzCreativeWorld/Dropzone-with-Image-Resizer" data-icon="octicon-star" data-style="mega" data-show-count="true" aria-label="Star AzCreativeWorld/Dropzone-with-Image-Resizer on GitHub">Star</a>
+	</div>
     	<div id="msg"></div>
         <div class="panel panel-default">
         	<div class="panel-heading"><i class="glyphicon glyphicon-upload"></i> Upload Multiple Files</div>
