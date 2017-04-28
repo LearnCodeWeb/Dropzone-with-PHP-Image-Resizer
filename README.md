@@ -9,6 +9,8 @@ You just need to set the name of your files in a **Dropzone** *like*
 
 **paramName: "files",** // The name that will be used to transfer the file
 
+for dropzone read [https://github.com/enyo/dropzone]
+
 in your PHP file
 
 ```php
