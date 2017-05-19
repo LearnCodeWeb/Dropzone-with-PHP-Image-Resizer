@@ -7,10 +7,14 @@ class ImageUploadAndResize{
 	public $s			=	0;
 	public $Sflag		=	0;
 	
-	public function compressImage($sourceURL, $destinationURL, $quality, $newWidth) {
+	public function compressImage($sourceURL, $destinationURL, $minImgWidth, $wmImageSource="", $positionX="", $positionY="", $quality, $newWidth) {
 		$infoImg 	= 	getimagesize($sourceURL);
 		$width		=	$infoImg[0];
 		$height		=	$infoImg[1];
+		if($width<$minImgWidth){
+			echo '<div class="alert alert-danger">Image <strong>WIDTH</strong> is less then '.$minImgWidth.'px</div>';
+			exit;
+		}
 		if($newWidth!=""){
 			$diff 		= 	$width / $newWidth;
 			$newHeight 	= 	$height / $diff; // creating new width and height with aspect ratio
@@ -19,20 +23,44 @@ class ImageUploadAndResize{
 			$newHeight 	= 	$height;
 		}
 		
+		$watermark 	= 	imagecreatefrompng($wmImageSource);
+		
 		$imgResource 		= 	imagecreatetruecolor($newWidth, $newHeight);
 		if ($infoImg['mime'] == 'image/jpeg'){
-			$image = imagecreatefromjpeg($sourceURL);
+			$image 	= 	imagecreatefromjpeg($sourceURL);
+			// Set the margins for the watermark and get the height/width of the watermark image
+			$positionRight 	= 	$positionX;
+			$positionBottom = 	$positionY;
+			$sx 	= 	imagesx($watermark);
+			$sy 	= 	imagesy($watermark);
+			// width to calculate positioning of the watermark. 
+			imagecopy($image, $watermark, imagesx($image) - $sx - $positionRight, imagesy($image) - $sy - $positionBottom, 0, 0, imagesx($watermark), imagesy($watermark));
+			
 			imagecopyresampled($imgResource, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 		} elseif ($infoImg['mime'] == 'image/png'){
-			$image = imagecreatefrompng($sourceURL);
+			$image 	= 	imagecreatefrompng($sourceURL);
+			// Set the margins for the watermark and get the height/width of the watermark image
+			$positionRight 	= 	$positionX;
+			$positionBottom = 	$positionY;
+			$sx 	= 	imagesx($watermark);
+			$sy 	= 	imagesy($watermark);
+			// width to calculate positioning of the watermark. 
+			imagecopy($image, $watermark, imagesx($image) - $sx - $positionRight, imagesy($image) - $sy - $positionBottom, 0, 0, imagesx($watermark), imagesy($watermark));
+			
 			imagecopyresampled($imgResource, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 		} elseif ($infoImg['mime'] == 'image/gif'){
-			$image = imagecreatefrompng($sourceURL);
-			imagecopyresampled($imgResource, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-		} elseif ($infoImg['mime'] == 'image/jpg'){
-			$image = imagecreatefrompng($sourceURL);
+			$image 	= 	imagecreatefromgif($sourceURL);
+			// Set the margins for the watermark and get the height/width of the watermark image
+			$positionRight 	= 	$positionX;
+			$positionBottom = 	$positionY;
+			$sx 	= 	imagesx($watermark);
+			$sy 	= 	imagesy($watermark);
+			// width to calculate positioning of the watermark. 
+			imagecopy($image, $watermark, imagesx($image) - $sx - $positionRight, imagesy($image) - $sy - $positionBottom, 0, 0, imagesx($watermark), imagesy($watermark));
+			
 			imagecopyresampled($imgResource, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 		}
+		
 		$RET	=	imagejpeg($imgResource, $destinationURL, $quality);
 		imagedestroy($image);
 		return $RET;
@@ -48,7 +76,7 @@ class ImageUploadAndResize{
 		return $fName;
 	}
 	
-	public function uploadFiles($yourFileName, $reName="", $yourDestination, $permission=0655, $quality=100, $newWidth=""){
+	public function uploadFiles($yourFileName, $yourDestination, $minImgWidth=400, $waterMarkImgSrc="", $xPosition="", $yPosition="", $reName="", $permission=0655, $quality=100, $newWidth=""){
 		if(!empty($_FILES[$yourFileName])){
 			foreach($_FILES[$yourFileName]['name'] as $val)
 			{
@@ -66,7 +94,7 @@ class ImageUploadAndResize{
 						$fileName	=	$files[0].$File_Ext;
 					}
 					$path		=	trim($srcPath.$fileName);
-					if(self::compressImage($_FILES[$yourFileName]['tmp_name'][$this->n], $path, $quality, $newWidth))
+					if(self::compressImage($_FILES[$yourFileName]['tmp_name'][$this->n], $path, $minImgWidth, $waterMarkImgSrc, $xPosition, $yPosition, $quality, $newWidth))
 					{					
 						$this->Sflag	= 1; // success
 					}else{

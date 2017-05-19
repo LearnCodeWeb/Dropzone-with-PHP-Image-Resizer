@@ -14,17 +14,20 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
 <body>
-	
+	<?php
+    	//deleteing images
+		if(isset($_REQUEST['img']) and $_REQUEST['img']!=""){
+			@unlink('uploads/'.$_REQUEST['img']);
+			$msg	=	'<div class="alert alert-success">Image delete successfully. Refresh your page.</div>';
+		}
+	?>
 	<div class="container">
-    	<hr>
-	<h4>If you like :) then, Give star to this project.</h4>
-	<div class="well">
-		<!-- Place this tag where you want the button to render. -->
-		<a class="github-button" href="https://github.com/AzCreativeWorld" data-style="mega" data-show-count="true" aria-label="Follow @AzCreativeWorld on GitHub">Follow @AzCreativeWorld</a>
-		<!-- Place this tag where you want the button to render. -->
-		<a class="github-button" href="https://github.com/AzCreativeWorld/Dropzone-with-Image-Resizer" data-icon="octicon-star" data-style="mega" data-show-count="true" aria-label="Star AzCreativeWorld/Dropzone-with-Image-Resizer on GitHub">Star</a>
-	</div>
-    	<div id="msg"></div>
+    	<h4>If you like :) then, Give star to this project.</h4>
+        <!-- Place this tag where you want the button to render. -->
+        <a class="github-button" href="https://github.com/AzCreativeWorld" data-style="mega" data-show-count="true" aria-label="Follow @AzCreativeWorld on GitHub">Follow @AzCreativeWorld</a>
+        <!-- Place this tag where you want the button to render. -->
+        <a class="github-button" href="https://github.com/AzCreativeWorld/Dropzone-with-Image-Resizer" data-icon="octicon-star" data-style="mega" data-show-count="true" aria-label="Star AzCreativeWorld/Dropzone-with-Image-Resizer on GitHub">Star</a>
+    	<div id="msg"><?php echo isset($msg)?$msg:''; ?></div>
         <div class="panel panel-default">
         	<div class="panel-heading"><i class="glyphicon glyphicon-upload"></i> Upload Multiple Files</div>
             <div class="panel-body">
@@ -63,6 +66,7 @@
 	 /* Add Files Script*/
 	 myDropzone.on("success", function(file, message){
 		$("#msg").html(message);
+		//setTimeout(function(){window.location.href="index.php"},800);
 	 });
 	 
 	 myDropzone.on("error", function (data) {
@@ -77,6 +81,26 @@
 		myDropzone.processQueue();
 	 });
 	</script>
-
+	
+    <div class="container">
+		<div class="panel panel-default">
+            <div class="panel-heading"><i class="glyphicon glyphicon-picture"></i> View Uploaded Files</div>
+            <div class="panel-body" style="overflow-y: scroll">
+                <?php
+				$directory = 'uploads';
+				$scanned_directory = array_diff(scandir($directory), array('..', '.'));
+				foreach($scanned_directory as $img){
+				?>
+                <div class="col-xs-6 col-md-3">
+					<div class="thumbnail">
+                      	<img src="uploads/<?php echo $img; ?>" alt="<?php echo $img; ?>">
+                    	<a href="index.php?img=<?php echo $img; ?>" class="btn btn-block btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+                    </div>
+                </div>
+				<?php } ?>
+            </div>
+        </div>
+	</div>
+    
 </body>
 </html>
