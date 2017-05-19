@@ -17,14 +17,18 @@ in your PHP file
 require('../az.multi.upload.class.php');
 $rename	=	rand().time(); // You can choose your own name.
 $upload	=	new ImageUploadAndResize();
-$upload->uploadFiles('files',$rename,'../uploads',0777,100,'');
+$upload->uploadFiles('files', '../uploads', 250, '../mini-logo.png', 20, 20, $rename, 0777, 100, '');
 ```
 All parameters that you need to set
 
 ```php
 $yourFileName = 'Your paramName' // Set in a Dropzone
-$reName = 'Rename uploaded file if you need' // Left empty save file default name
 $yourDestination  = '../upload' // Folder/Dir name where you need to save images
+$minImgWidth  = 400 //Set to check Minimum width of uploaded images.
+$waterMarkImgSrc  = '../mini-logo.png' //Set watermark
+$xPosition  = 20 //Set position of watermark X-AXIS
+$yPosition  = 20 //Set position of watermark Y-AXIS
+$reName = 'Rename uploaded file if you need' // Left empty save file default name
 $permission = 0655 // Folder/Dir permission set 0777 for full access
 $quality  = 100 // Set image quality you can set it between 1-100
 $newWidth = '' // If you want to resize the image then pass int value else upload without resizing
