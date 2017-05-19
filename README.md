@@ -1,4 +1,11 @@
-# Files uploader with Resize & change quality of images
+# Multi Files Uploader PHP
+
+1) Resize Images
+2) Change quality of images
+3) Add watermark
+4) Set watermark position x-y
+5) Check uploading imaegs size
+6) Rename images
 
 ----------------
 This is very basic class that you can use for upload images.
