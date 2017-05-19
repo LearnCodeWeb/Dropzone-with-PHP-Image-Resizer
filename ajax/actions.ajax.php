@@ -8,4 +8,4 @@ require('../az.multi.upload.class.php');
 $rename	=	rand(1000,5000).time();
 $upload	=	new ImageUploadAndResize();
 
-$upload->uploadFiles('files', '../uploads', 250, '../mini-logo.png', 20, 20, $rename, 0777, 100, '');
+$upload->uploadFiles('files', '../uploads', 400, '../mini-logo.png', 20, 20, $rename, 0777, 100, '');
