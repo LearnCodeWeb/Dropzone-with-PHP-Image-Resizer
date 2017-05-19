@@ -17,7 +17,7 @@ in your PHP file
 require('../az.multi.upload.class.php');
 $rename	=	rand().time(); // You can choose your own name.
 $upload	=	new ImageUploadAndResize();
-$upload->uploadFiles('files', '../uploads', 250, '../mini-logo.png', 20, 20, $rename, 0777, 100, '');
+$upload->uploadFiles('files', '../uploads', 400, '../mini-logo.png', 20, 20, $rename, 0777, 100, '');
 ```
 All parameters that you need to set
 
