@@ -10,7 +10,7 @@
 ----------------
 This is very basic class that you can use for upload images.
 
-By using this class you can change the ***QUALITY*** of the image and you also can ***RESIZE*** the image.
+By using this class you can change the ***QUALITY*** of the image, Add water mark and you also can ***RESIZE*** the image.
 
 You just need to set the name of your files in a **Dropzone** *like*
 
