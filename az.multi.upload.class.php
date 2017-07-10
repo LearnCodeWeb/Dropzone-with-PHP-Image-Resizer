@@ -3,9 +3,9 @@ class ImageUploadAndResize{
 	
 	private $newWidth;
 	private $folderName;
-	public $n				=	0;
-	public $s				=	0;
-	public $Sflag			=	0;
+	public $n		=	0;
+	public $s		=	0;
+	public $Sflag		=	0;
 	public $prepareNames;
 	protected $isSubQuery 	= 	false;
 	
