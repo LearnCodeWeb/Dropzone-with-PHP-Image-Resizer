@@ -6,6 +6,12 @@ ini_set('memory_limit','1000M');*/
 
 require('../az.multi.upload.class.php');
 $rename	=	rand(1000,5000).time();
-$upload	=	new ImageUploadAndResize();
+$upload	=	new ImageUploadAndResize('localhost','root','','test');
+$upload->uploadFiles('files', '../uploads', 250, '../mini-logo.png', 20, 20, $rename, 0777, 100, '');
 
-$upload->uploadFiles('files', '../uploads', 400, '../mini-logo.png', 20, 20, $rename, 0777, 100, '');
+
+print"<pre>";
+foreach($upload->prepareNames as $name){
+	print_r($name[0]);
+}
+print"</pre>";
