@@ -26,6 +26,16 @@ $rename	=	rand().time(); // You can choose your own name.
 $upload	=	new ImageUploadAndResize('localhost','root','',''); //Host, User, Password, DB, Port
 $upload->uploadFiles('files', '../uploads', 400, '../mini-logo.png', 20, 20, $rename, 0777, 100, '');
 ```
+After upload images method will return images Name array that you can use to submit into **DB TABLE** like.
+
+```
+print"<pre>";
+foreach($upload->prepareNames as $name){
+	print_r($name[0]);
+}
+print"</pre>";
+```
+
 All parameters that you need to set
 
 ```php
