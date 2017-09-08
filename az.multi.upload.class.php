@@ -10,44 +10,8 @@ class ImageUploadAndResize{
 	protected $isSubQuery 	= 	false;
 	
 	/**
-     * Database credentials
-     * @var string
-     */
-    protected $host;
-    protected $username;
-    protected $password;
-    protected $db;
-    protected $port;
-	
-	/**
-	* @param string $host
-	* @param string $username
-	* @param string $password
-	* @param string $db
-	* @param int $port
-	*/
-	
-	public function __construct($host = null, $username = null, $password = null, $db = null, $port = null)
-    {
-     	$mysqli = new mysqli($host, $username, $password, $db, $port);
-		/*
-		 * This is the "official" OO way to do it,
-		 * BUT $connect_error was broken until PHP 5.2.9 and 5.3.0.
-		 */
-		if ($mysqli->connect_error) {
-			die('Connect Error (' . $mysqli->connect_errno . ') '
-					. $mysqli->connect_error);
-		}
-		/*
-		 * Use this instead of $connect_error if you need to ensure
-		 * compatibility with PHP versions prior to 5.2.9 and 5.3.0.
-		 */
-		if (mysqli_connect_error()) {
-			die('Connect Error (' . mysqli_connect_errno() . ') '
-					. mysqli_connect_error());
-		}
-		$mysqli->close();   
-	}
+     	* Image compress and processing
+       	*/
 	
 	public function compressImage($sourceURL, $destinationURL, $minImgWidth, $wmImageSource="", $positionX="", $positionY="", $quality, $newWidth) {
 		$infoImg 	= 	getimagesize($sourceURL);
@@ -140,7 +104,7 @@ class ImageUploadAndResize{
 					$path		=	trim($srcPath.$fileName);
 					if(self::compressImage($_FILES[$yourFileName]['tmp_name'][$this->n], $path, $minImgWidth, $waterMarkImgSrc, $xPosition, $yPosition, $quality, $newWidth))
 					{
-						$this->prepareNames[]	=	array($fileName); //need to be fixed.
+						$this->prepareNames[]	=	$fileName; //need to be fixed.
 						$this->Sflag		= 	1; // success
 					}else{
 						$this->Sflag	= 2; // file not move to the destination
