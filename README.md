@@ -23,15 +23,23 @@ in your PHP file
 ```php
 require('../az.multi.upload.class.php');
 $rename	=	rand().time(); // You can choose your own name.
-$upload	=	new ImageUploadAndResize('localhost','root','',''); //Host, User, Password, DB, Port
+$upload	=	new ImageUploadAndResize(); // Object create
 $upload->uploadFiles('files', '../uploads', 400, '../mini-logo.png', 20, 20, $rename, 0777, 100, '');
 ```
 After upload images method will return images Name array that you can use to submit into **DB TABLE** like.
 
 ```
+$db		=	new mysqli('localhost','root','','test');
+
 print"<pre>";
 foreach($upload->prepareNames as $name){
-	print_r($name[0]);
+	$sql = "INSERT INTO YOURTABLE_NAME (YOUR_COL_NAME) VALUES ('".$name."')";
+	
+	if ($db->query($sql) === TRUE) {
+		echo "New record created successfully";
+	} else {
+		echo "Error: " . $sql . "<br>" . $db->error;
+	}
 }
 print"</pre>";
 ```
