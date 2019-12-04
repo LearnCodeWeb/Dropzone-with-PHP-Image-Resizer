@@ -43,6 +43,17 @@ class ImageUploadAndResize{
 			imagecopy($image, $watermark, imagesx($image) - $sx - $positionRight, imagesy($image) - $sy - $positionBottom, 0, 0, imagesx($watermark), imagesy($watermark));
 			
 			imagecopyresampled($imgResource, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+		}elseif ($infoImg['mime'] == 'image/jpg'){
+			$image 	= 	imagecreatefromjpeg($sourceURL);
+			// Set the margins for the watermark and get the height/width of the watermark image
+			$positionRight 	= 	$positionX;
+			$positionBottom = 	$positionY;
+			$sx 	= 	imagesx($watermark);
+			$sy 	= 	imagesy($watermark);
+			// width to calculate positioning of the watermark. 
+			imagecopy($image, $watermark, imagesx($image) - $sx - $positionRight, imagesy($image) - $sy - $positionBottom, 0, 0, imagesx($watermark), imagesy($watermark));
+			
+			imagecopyresampled($imgResource, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 		} elseif ($infoImg['mime'] == 'image/png'){
 			$image 	= 	imagecreatefrompng($sourceURL);
 			// Set the margins for the watermark and get the height/width of the watermark image
