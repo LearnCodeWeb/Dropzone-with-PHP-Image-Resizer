@@ -101,7 +101,7 @@
 	 /* Add Files Script*/
 	 myDropzone.on("success", function(file, message){
 		$("#msg").html(message);
-		//setTimeout(function(){window.location.href="index.php"},800);
+		setTimeout(function(){window.location.href="index.php"},800);
 	 });
 	 
 	 myDropzone.on("error", function (data) {
