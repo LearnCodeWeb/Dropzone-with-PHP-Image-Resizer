@@ -94,8 +94,11 @@ class ImageUploadAndResize{
 	}
 	
 	
-	public function uploadFiles($yourFileName, $yourDestination, $minImgWidth=400, $waterMarkImgSrc="", $xPosition="", $yPosition="", $reName="", $permission=0655, $quality=100, $newWidth=""){
+	public function uploadFiles($yourFileName, $yourDestination, $createThumb=false, $minImgWidth=400, $waterMarkImgSrc="", $xPosition="", $yPosition="", $reName="", $permission=0655, $quality=100, $newWidth="", $thumbWidth=""){
 		if(!empty($_FILES[$yourFileName])){
+			if($createThumb!="" and $createThumb===true){
+				$srcThumbPath	=	self::createDir($yourDestination.'/thumb', $permission).'/';
+			}
 			foreach($_FILES[$yourFileName]['name'] as $val)
 			{
 				$infoExt 	= 	getimagesize($_FILES[$yourFileName]['tmp_name'][$this->n]);
@@ -112,9 +115,12 @@ class ImageUploadAndResize{
 					}else{
 						$fileName	=	$files[0].$File_Ext;
 					}
-					$path		=	trim($srcPath.$fileName);
-					if(self::compressImage($_FILES[$yourFileName]['tmp_name'][$this->n], $path, $minImgWidth, $waterMarkImgSrc, $xPosition, $yPosition, $quality, $newWidth))
-					{
+					$path			=	trim($srcPath.$fileName);
+					$thumbPath		=	trim($srcThumbPath.$fileName);
+					if(self::compressImage($_FILES[$yourFileName]['tmp_name'][$this->n], $path, $minImgWidth, $waterMarkImgSrc, $xPosition, $yPosition, $quality, $newWidth)){
+						
+						self::compressImage($_FILES[$yourFileName]['tmp_name'][$this->n], $thumbPath, $minImgWidth, $waterMarkImgSrc, $xPosition, $yPosition, $quality, $thumbWidth);
+						
 						$this->prepareNames[]	=	$fileName; //need to be fixed.
 						$this->Sflag		= 	1; // success
 					}else{
