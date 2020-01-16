@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <link rel="stylesheet" href="dropzone/dropzone.css" type="text/css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.css" type="text/css">
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
@@ -15,6 +16,7 @@
     	//deleteing images
 		if(isset($_REQUEST['img']) and $_REQUEST['img']!=""){
 			@unlink('uploads/'.$_REQUEST['img']);
+			@unlink('uploads/thumb/'.$_REQUEST['img']);
 			$msg	=	'<div class="alert alert-success">Image delete successfully.</div>';
 		}
 	?>
@@ -29,7 +31,7 @@
         <!-- Place this tag where you want the button to render. -->
         <a class="github-button" href="https://github.com/learncodeweb" data-style="mega" data-show-count="true" aria-label="Follow @learncodeweb on GitHub">Follow @LCW</a>
         <!-- Place this tag where you want the button to render. -->
-        <a class="github-button" href="https://github.com/learncodeweb/Dropzone-with-Image-Resizer" data-icon="octicon-star" data-style="mega" data-show-count="true" aria-label="Star learncodeweb/Dropzone-with-Image-Resizer on GitHub">Star</a>
+        <a class="github-button" href="https://github.com/learncodeweb/Dropzone-with-PHP-Image-Resizer" data-icon="octicon-star" data-style="mega" data-show-count="true" aria-label="Star learncodeweb/Dropzone-with-PHP-Image-Resizer on GitHub">Star</a>
     	<div id="msg"><?php echo isset($msg)?$msg:''; ?></div>
         <div class="card">
         	<div class="card-header"><i class="glyphicon glyphicon-upload"></i> Upload Multiple Files</div>
@@ -60,12 +62,12 @@
             <div class="card-body" style="overflow-y: scroll">
             	<div class="card-columns">
 					<?php
-                    $directory = 'uploads';
+                    $directory = 'uploads/thumb';
                     $scanned_directory = array_diff(scandir($directory), array('..', '.'));
                     foreach($scanned_directory as $img){
                     ?>
                     <div class="card">
-                        <img src="uploads/<?php echo $img; ?>" alt="<?php echo $img; ?>">
+                       <a href="uploads/<?php echo $img; ?>" data-fancybox="true"> <img src="uploads/thumb/<?php echo $img; ?>" alt="<?php echo $img; ?>" class="img-thumbnail"></a>
                         <div class="card-body">
                             <a href="index.php?img=<?php echo $img; ?>" class="btn btn-block btn-danger"><i class="fa fa-trash"></i></a>
                         </div>
@@ -81,6 +83,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     <!--Only these JS files are necessary--> 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.20/jquery.fancybox.min.js"></script>
     <script src="dropzone/dropzone.js"></script>
     <script>
 	//Dropzone script
@@ -92,7 +95,7 @@
 		 uploadMultiple: true,
 		 autoProcessQueue: false,
 		 parallelUploads: 50,
-		 maxFilesize: 2, // MB
+		 maxFilesize: 30, // MB
 		 acceptedFiles: ".png, .jpeg, .jpg, .gif",
 		 url: "ajax/actions.ajax.php",
 	 });
