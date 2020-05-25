@@ -60,7 +60,7 @@
 		<div class="card">
             <div class="card-header"><i class="glyphicon glyphicon-picture"></i> View Uploaded Files</div>
             <div class="card-body" style="overflow-y: scroll">
-            	<div class="card-columns">
+            	<div class="card-columns" id="gridimage">
 					<?php
                     $directory = 'uploads/thumb';
                     $scanned_directory = array_diff(scandir($directory), array('..', '.'));
@@ -104,7 +104,8 @@
 	 /* Add Files Script*/
 	 myDropzone.on("success", function(file, message){
 		$("#msg").html(message);
-		setTimeout(function(){window.location.href="index.php"},800);
+		$('#gridimage').load(document.URL +  ' #gridimage');
+		 //setTimeout(function(){window.location.href="index.php"},800);
 	 });
 	 
 	 myDropzone.on("error", function (data) {
