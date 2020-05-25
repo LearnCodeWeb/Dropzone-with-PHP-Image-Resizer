@@ -67,7 +67,7 @@
                     foreach($scanned_directory as $img){
                     ?>
                     <div class="card">
-                       <a href="uploads/<?php echo $img; ?>" data-fancybox="true"> <img src="uploads/thumb/<?php echo $img; ?>" alt="<?php echo $img; ?>" class="img-thumbnail"></a>
+                       <a href="uploads/<?php echo $img; ?>" data-fancybox="true"> <img src="uploads/thumb/<?php echo $img; ?>" alt="<?php echo $img; ?>" class="card-img-top"></a>
                         <div class="card-body">
                             <a href="index.php?img=<?php echo $img; ?>" class="btn btn-block btn-danger"><i class="fa fa-trash"></i></a>
                         </div>
