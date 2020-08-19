@@ -64,6 +64,9 @@ class ImageUploadAndResize{
 			// width to calculate positioning of the watermark. 
 			imagecopy($image, $watermark, imagesx($image) - $sx - $positionRight, imagesy($image) - $sy - $positionBottom, 0, 0, imagesx($watermark), imagesy($watermark));
 			
+			imagealphablending($image, false);
+			imagesavealpha($image, true);
+			
 			imagecopyresampled($imgResource, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 		} elseif ($infoImg['mime'] == 'image/gif'){
 			$image 	= 	imagecreatefromgif($sourceURL);
@@ -74,6 +77,9 @@ class ImageUploadAndResize{
 			$sy 	= 	imagesy($watermark);
 			// width to calculate positioning of the watermark. 
 			imagecopy($image, $watermark, imagesx($image) - $sx - $positionRight, imagesy($image) - $sy - $positionBottom, 0, 0, imagesx($watermark), imagesy($watermark));
+			
+			imagealphablending($image, false);
+			imagesavealpha($image, true);
 			
 			imagecopyresampled($imgResource, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 		}
