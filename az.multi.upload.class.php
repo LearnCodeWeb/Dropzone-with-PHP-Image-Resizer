@@ -31,47 +31,22 @@ class ImageUploadAndResize
 			$newHeight 	= 	$height;
 		}
 
-		$watermark 	= 	imagecreatefrompng($wmImageSource);
-
-		$imgResource 		= 	imagecreatetruecolor($newWidth, $newHeight);
+		$image	=	'';
 		if ($infoImg['mime'] == 'image/jpeg') {
 			$image 	= 	imagecreatefromjpeg($sourceURL);
-			// Set the margins for the watermark and get the height/width of the watermark image
-			$positionRight 	= 	$positionX;
-			$positionBottom = 	$positionY;
-			$sx 	= 	imagesx($watermark);
-			$sy 	= 	imagesy($watermark);
-			// width to calculate positioning of the watermark. 
-			imagecopy($image, $watermark, imagesx($image) - $sx - $positionRight, imagesy($image) - $sy - $positionBottom, 0, 0, imagesx($watermark), imagesy($watermark));
-
-			imagecopyresampled($imgResource, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 		} elseif ($infoImg['mime'] == 'image/jpg') {
 			$image 	= 	imagecreatefromjpeg($sourceURL);
-			// Set the margins for the watermark and get the height/width of the watermark image
-			$positionRight 	= 	$positionX;
-			$positionBottom = 	$positionY;
-			$sx 	= 	imagesx($watermark);
-			$sy 	= 	imagesy($watermark);
-			// width to calculate positioning of the watermark. 
-			imagecopy($image, $watermark, imagesx($image) - $sx - $positionRight, imagesy($image) - $sy - $positionBottom, 0, 0, imagesx($watermark), imagesy($watermark));
-
-			imagecopyresampled($imgResource, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 		} elseif ($infoImg['mime'] == 'image/png') {
 			$image 	= 	imagecreatefrompng($sourceURL);
-			// Set the margins for the watermark and get the height/width of the watermark image
-			$positionRight 	= 	$positionX;
-			$positionBottom = 	$positionY;
-			$sx 	= 	imagesx($watermark);
-			$sy 	= 	imagesy($watermark);
-			// width to calculate positioning of the watermark. 
-			imagecopy($image, $watermark, imagesx($image) - $sx - $positionRight, imagesy($image) - $sy - $positionBottom, 0, 0, imagesx($watermark), imagesy($watermark));
-
-			imagealphablending($image, false);
-			imagesavealpha($image, true);
-
-			imagecopyresampled($imgResource, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 		} elseif ($infoImg['mime'] == 'image/gif') {
 			$image 	= 	imagecreatefromgif($sourceURL);
+		}
+
+
+		$imgResource 	= 	imagecreatetruecolor($newWidth, $newHeight);
+
+		if (!empty($wmImageSource)) {
+			$watermark 		= 	imagecreatefrompng($wmImageSource);
 			// Set the margins for the watermark and get the height/width of the watermark image
 			$positionRight 	= 	$positionX;
 			$positionBottom = 	$positionY;
@@ -79,14 +54,20 @@ class ImageUploadAndResize
 			$sy 	= 	imagesy($watermark);
 			// width to calculate positioning of the watermark. 
 			imagecopy($image, $watermark, imagesx($image) - $sx - $positionRight, imagesy($image) - $sy - $positionBottom, 0, 0, imagesx($watermark), imagesy($watermark));
-
-			imagealphablending($image, false);
-			imagesavealpha($image, true);
-
-			imagecopyresampled($imgResource, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 		}
+		imagealphablending($imgResource, false);
+		imagesavealpha($imgResource, true);
 
-		$RET	=	imagejpeg($imgResource, $destinationURL, $quality);
+		imagecopyresampled($imgResource, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+		if ($infoImg['mime'] == 'image/png' || $infoImg['mime'] == 'image/gif') {
+
+			$newQuality	=	($quality / 10) - 1;
+			imagealphablending($imgResource, false);
+			imagesavealpha($imgResource, true);
+			$RET	=	imagepng($imgResource, $destinationURL, $newQuality); //For png quality range is 0-9
+		} else {
+			$RET	=	imagejpeg($imgResource, $destinationURL, $quality);
+		}
 		imagedestroy($image);
 		return $RET;
 	}
