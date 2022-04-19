@@ -8,7 +8,7 @@ Multiple Files Uploaded in PHP.
 4. Set watermark position x-y
 5. Check to upload image size
 6. Rename images
-7. Create thumbnail with the original image [New feature added]
+7. Create thumbnail with the original image **[New feature added]**
 
 
 ```php
